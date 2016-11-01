@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>클래시 로얄</title>
+<style>
+*{margin:0; padding:0; list-style:none;}
+a{color:inherit; text-decoration:none;}
+button{cursor:pointer;}
+#box{
+	width:100%;
+	text-align:center;
+	position:absolute;
+	top:50%;
+	transform:translateY(-50%);
+}
+/*
+#card_list{
+	width:100%;
+	height:100%;
+	position:fixed;
+	background:#000;
+	opacity:0.6;
+}
+*/
+
+/* 메인 화면 */
+#main{
+	margin:0 auto;
+	height:100vh;
+	transition:1.2s;
+	position:relative;
+	opacity:0;
+}
+
+#main > #background{
+	background-image:url("img/main_ipad.jpeg");
+	background-size:contain;
+	background-position:center;
+	background-repeat:no-repeat;
+	transition:1.2s;
+	height:100vh;
+}
+
+/* 로딩 바 */
+#main > #loading{
+	position:absolute;
+	bottom:0;
+	width:100%;
+	height:30px;
+	background:#000509;
+	left:50%;
+	transform:translateX(-50%);
+	transition:0.8s;
+	opacity:0;
+}
+
+#main > #loading > *{
+	transition:0.3s;
+}
+
+#main > #loading > #loading_font{
+	width:100%;
+	text-align:center;
+	font-size:24px;
+	font-weight:bold;
+	letter-spacing:2px;
+	color:#fdfefe;
+	position:absolute;
+	top:-15px;
+	font-family:"Arial";
+	text-shadow:1px 1px #222;
+}
+
+#main > #loading > #loading_top{
+	width:0%;
+	height:15px;
+	background:#7ab3ee;
+}
+
+#main > #loading > #loading_bottom{
+	width:0%;
+	height:15px;
+	background:#136ecc;
+}
+/*
+	#fdfefe
+	top #7ab3ee
+	bottom #136ecc
+	background : #000509 ;
+	#fe3847
+	#394b5f
+
+	border : #182128;
+	out : #a0b1d0;
+	in : #b3c3df;
+*/
+
+/* 상점 */ 
+#shop{
+	position:absolute;
+	top:0;
+	width:100%;
+	height:100vh;
+	background:#3a4b5e;
+	z-index:10;
+	left:50%;
+	transform:translateX(-50%);
+	opacity:0;
+	transition:1.2s;
+	overflow:hidden;
+}
+
+/* 상점 메뉴바(타이틀) */
+#shop > #shop_title{
+	width:100%;
+	height:40px;
+	line-height:40px;
+	background:#fe3847;
+	font-size:26px;
+	color:#fff;
+	text-align:center;
+	font-family:"Arial";
+	text-shadow:2px 2px #222;
+	border-top:3px solid #b40944;
+	border-bottom:3px solid #b40944;
+}
+
+
+/* 상점 상자 */
+#shop > .shop_box{
+	float:left;
+	width:22.6%;
+	height:240px;
+	padding:2%;
+	margin:15px 3% 0 3%;
+	position:relative;
+	top:5%;
+	border-radius:5px;
+	border:2px solid #182128;
+	border-bottom:3px solid #182128;
+	border-bottom-right-radius:7px;
+	border-bottom-left-radius:7px;
+	background:#a0b1d0;
+	text-align:center;
+	cursor:pointer;
+}
+
+#shop > .shop_box > .shop_box-in{
+	width:100%;
+	min-height:50%;
+	max-height:50%;
+	padding-top:7px; 
+	background:#b3c3df;
+	border-radius:3px;
+}
+
+/* 상자 아레나 */
+#shop > .shop_box > .shop_box-in > .box_arena{
+	font-size:15px;
+	color:#5db5e1;
+	text-shadow:1px 1px #000;
+	text-align:center;
+	position:relative;
+	font-family:"Arial";
+	top:-15px;
+}
+
+/* 상자 이름 */
+#shop > .shop_box > .shop_box-in > .box_name{
+	font-size:17px;
+	color:#fff;
+	text-shadow:1px 1px #000;
+	padding-bottom: 20px;
+}
+
+#shop span{
+	width: 100%;
+    font-family: "Supercell-Magic";
+    color: #f4f6f5;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: -1px -1px 0 #1e2224, 2px -1px 0 #1e2224, -1px 2px 0 #1e2224, 2px 2px 0 #1e2224;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    /* -1px -1px 0 #330a13,       2px -1px 0 #330a13,     -1px 2px 0 #330a13,      2px 2px 0 #330a13 */
+    letter-spacing:1px;
+}
+
+#shop > .shop_box .gem{
+	width:25px;
+	top: 7px;
+    left: 5px;
+    position: relative;
+}
+
+#buy_wrap{
+	width:100%;
+	height:100%;
+	display:none;
+	transition:0.4s;
+	background:#000;
+	opacity:0.5;
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:1001;
+}
+
+@media screen and (max-width:768px){
+	#main{
+		
+	}
+
+	#loading{
+		min-width:100%;
+		height:40px;
+	}
+
+	#loading > #loading_font{
+		font-size:30px;
+	}
+
+	#loading > #loading_top{
+		height:20px;
+	}
+
+	#loading > #loading_bottom{
+		height:20px;
+	}
+}
+</style>
+</head>
+<body></body>
+	<!-- 메인 화면 --> 
+	<section id="main">
+		<div id="background"></div>
+		<!-- 로딩 -->	
+		<div id="loading">
+			<div id="loading_font">0%</div>
+			<div id="loading_top"></div>
+			<div id="loading_bottom"></div>
+		</div>
+		<!-- 상점 -->
+		<div id="shop">
+			<div id="shop_title">보물 상자</div>
+			<div class="shop_box">
+				<div class="shop_box-in">
+					<div class="box_arena">아레나 8</div>
+					<div class="box_name">자이언트 상자</div>
+					<div class="img_wrap">
+						<img src="chests/giant-chest.png">
+						<span>440<img src="img/gem.png" class="gem"></span>
+					</div>
+				</div>
+			</div>
+			<div class="shop_box">
+				<div class="shop_box-in">
+					<div class="box_arena">아레나 8</div>
+					<div class="box_name">마법 상자</div>
+					<div class="img_wrap">
+						<img src="chests/magical-chest.png">
+						<span>700<img src="img/gem.png" class="gem"></span>
+					</div>
+				</div>
+			</div>
+			<div class="shop_box">
+				<div class="shop_box-in">
+					<div class="box_arena">아레나 8</div>
+					<div class="box_name">슈퍼 마법 상자</div>
+					<div class="img_wrap">
+						<img src="chests/super-magical-chest.png">
+						<span>4 000<img src="img/gem.png" class="gem"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="buy_wrap"></div>
+	</section>
+	<div id="box"></div>
+	<div id="card_list"></div>
+
+	<script>
+		var random , rand , save = 0;
+
+		window.onload = function(){
+			document.getElementById("main").style.width = 768*(100/(1024/window.innerHeight)/100)+"px";
+			document.getElementById("main").style.opacity = 1;
+			document.getElementById("loading").style.opacity = 1;
+			random = setInterval(function(){
+				rand = Math.floor((Math.random()*2)+1);
+				save += rand;
+				update(save);
+				if(save >= 100){
+					clearInterval(random);
+					shop();
+				}
+			},50);
+
+		}
+
+		var shop_box = document.getElementsByClassName("shop_box");
+		var box_name = document.getElementsByClassName("box_name");
+		var buy_wrap = document.getElementById("buy_wrap");
+
+		shop_box[0].onclick = function(){
+			buy_box(0);
+		}
+
+		shop_box[1].onclick = function(){
+			buy_box(1);
+		}
+
+		shop_box[2].onclick = function(){
+			buy_box(2);
+		}
+
+		function buy_box(no){
+			alert(box_name[no].innerHTML);
+			buy_wrap.style.display = "block";
+		}
+
+		function update(save){
+			if(save >= 100) save = 100;
+			document.getElementById("loading_font").innerHTML = save+"%";
+			document.getElementById("loading_top").style.width = save+"%";
+			document.getElementById("loading_bottom").style.width = save+"%";
+		}
+
+		function shop(){
+			document.getElementById("background").style.opacity = 0;
+			document.getElementById("loading").style.opacity = 0;
+			document.getElementById("shop").style.opacity = 1;
+		}
+	/*
+		var chest_array = ["crown-chest","giant-chest","golden-chest","magical-chest","silver-chest","super-magical-chest","wooden-chest"];
+		var box = document.getElementById("box");
+		var chest_img = "";
+
+		window.onload = function(){
+			for(i=0; i<chest_array.length; i++){
+				document.getElementsByTagName("img")[i].onclick = function(){
+					if(i == 0){
+
+					}
+				}	
+			}
+		}
+
+		for(i=0; i<chest_array.length; i++){
+			chest_img += "<img src='chests/"+chest_array[i]+".png' id='"+chest_array[i]+"'>";
+		}	
+
+		box.innerHTML = chest_img;
+	*/
+	</script>
+</body>
+</html>
